@@ -439,8 +439,7 @@ void generate_highlight_clips( hecate_params& opt, vector<hecate::Range>& v_high
   const char *cdot = "__tmp__";
   
   string filename = hecate::get_filename( std::string(opt.in_video) );
-  
-  VideoCapture vr( opt.in_video );
+  VideoCapture vr( opt.in_video; );
   double fps = vr.get(CV_CAP_PROP_FPS);
   vr.release();
   
@@ -495,6 +494,7 @@ void generate_highlight_clips( hecate_params& opt, vector<hecate::Range>& v_high
       // Crop video segment
       sprintf( outfile, "%s/%s%s_seg%03d.mp4",
               opt.out_dir.c_str(), cdot, filename.c_str(), shotid);
+              
       hecate::ffmpeg_video_crop( opt.in_video, std::string(outfile),
                              start_pos, duration, opt.mov_width_px );
       

@@ -10,6 +10,7 @@
 
 #include "hecate/hecate.hpp"
 
+
 using namespace std;
 using namespace cv;
 
@@ -154,9 +155,19 @@ void generate_thumbnails( hecate_params& opt, vector<int>& v_thumb_idx )
   int frm_idx = 0;
   
   string filename = hecate::get_filename( std::string(opt.in_video) );
-  
-  VideoCapture vr( opt.in_video );
+ 
+  string filetoprocess = opt.in_video;
+
+  if (opt.in_hqvideo != "") {
+    filetoprocess = opt.in_hqvideo;
+  }
+
+  if( opt.debug ) {
+    printf( "Using %s", filetoprocess.c_str() );
+  }
+  VideoCapture vr( filetoprocess );
   double rsz_ratio = (double)(2+opt.jpg_width_px)/vr.get(CV_CAP_PROP_FRAME_WIDTH);
+  
   while( njpg_cnt < (int)v_thumb_idx.size() )
   {
     Mat frm; vr>>frm;

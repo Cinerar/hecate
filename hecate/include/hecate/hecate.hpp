@@ -51,7 +51,8 @@ using namespace std;
 
 // program options
 struct hecate_params {
-  string in_video;
+  string in_video;      // input video
+  string in_hqvideo;    // input hq_video
   string out_dir;
   string caption;
   int step_sz;          // frame subsampling step size
@@ -87,7 +88,7 @@ struct hecate_params {
   ngif(5),
   lmov(15),
   gif_fps(8),
-  jpg_width_px(360),
+  jpg_width_px(1920),
   gif_width_px(360),
   mov_width_px(360),
   max_duration(-1),
@@ -113,6 +114,7 @@ inline void hecate_parse_params(int argc, char** argv, hecate_params& opt)
 {
   static struct option long_options[] = {
     {"in_video",        required_argument, 0, 'i'},
+    {"in_hqvideo",      required_argument, 0, 'I'},
     {"out_dir",         required_argument, 0, 'o'},
     {"step",            required_argument, 0, 's'},
     {"njpg",            required_argument, 0, 'n'},
@@ -152,6 +154,7 @@ inline void hecate_parse_params(int argc, char** argv, hecate_params& opt)
     if( c==-1 ) break;
     switch( c ) {
       case 'i': opt.in_video         = optarg; break;
+      case 'I': opt.in_hqvideo       = optarg; break;
       case 'o': opt.out_dir          = optarg; break;
       case 's': opt.step_sz          = atoi(optarg); break;
       case 'n': opt.njpg             = atoi(optarg); break;
@@ -203,6 +206,7 @@ inline void hecate_usage()
   printf("USAGE: hecate -i infile [options]\n");
   printf("\n");
   printf("  -i  --in_video      (string)    Input video file\n");
+  printf("  -I  --in_hqvideo    (string)    Input video high quality\n");
   printf("  -o  --out_dir       (string)    Output directory (%s)\n", opt.out_dir.c_str());
   printf("  -s  --step          (int)       Frame subsampling step size (%d)\n", opt.step_sz);
   printf("  -n  --njpg          (int)       Number of thumbnails to be generated (%d)\n", opt.njpg);
